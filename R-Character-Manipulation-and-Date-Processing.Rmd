@@ -100,7 +100,7 @@ str_extract(words, regex(sameThreeSequentiallyRegex, ignore_case = TRUE))
 
 
 ##### • "(.)(.)\\\2\\\1"
-It will capture any 2 characters, then those same characters in reverse sequence (form "1221", length 6) all surrounded by quotes
+It will capture any 2 characters, then those same characters in reverse sequence all surrounded by quotes (form "1221", length 6)
 
 ```{r}
 anyTwoThenReversedQuotedRegex <- "\"(.)(.)\\2\\1\""
