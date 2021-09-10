@@ -1,0 +1,184 @@
+---
+title: "DATA 607 - Assignment 3 - R Character Manipulation and Date Processing"
+author: "Preston Peck"
+date: "9/9/2021"
+output: html_document
+---
+
+```{r}
+library(stringr)
+library(dplyr)
+library(qdapRegex)
+library(purrr)
+```
+
+
+******
+
+# Question 1
+#### Using the 173 majors listed in fivethirtyeight.com’s College Majors dataset [https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/], provide code that identifies the majors that contain either "DATA" or "STATISTICS"
+
+(?i) is case insensitive
+
+```{r}
+read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/majors-list.csv") %>%
+  filter(str_detect(Major, "(?i)data|statistics"))
+```
+
+******
+
+# Question 2
+#### Write code that transforms the data below into a format like this:
+#### c("bell pepper", "bilberry", "blackberry", "blood orange", "blueberry", "cantaloupe", "chili pepper", "cloudberry", "elderberry", "lime", "lychee", "mulberry", "olive", "salal berry")
+
+```{r}
+question2 <- read.csv("data/question2.csv", header = FALSE)
+question2
+```
+
+##### String
+
+```{r}
+question2String <- question2
+
+indexesRegex <- "([^A-Za-z()\" ])"
+
+beforeNextRowRegex <- "\"\\\\"
+afterNextRowRegex <- "\"\""
+
+aroundItemsRegex <- "\\\\"
+betweenItemsRegex <- "\" \""
+
+question2String[[1]] <- question2String[[1]] %>% 
+  str_replace_all(indexesRegex, "")  %>% 
+  str_squish
+
+question2String %>% 
+  paste %>%
+  str_replace_all(paste(beforeNextRowRegex, "|", aroundItemsRegex, sep = ""), "")  %>%
+  str_replace_all(afterNextRowRegex, "\"") %>%
+  str_replace_all(betweenItemsRegex, "\", \"")
+```
+  
+##### Vector
+
+```{r}
+question2Vector <- question2
+
+question2Vector %>%
+  paste %>%
+  str_replace_all(indexesRegex, "") %>%
+  rm_between(" \"", "\" ", extract = TRUE) %>%
+  unlist %>%
+  discard(function(x) x == "")
+```
+
+******
+
+# Question 3
+#### Describe, in words, what these expressions will match:
+##### • (.)\1\1
+This may have been incorrectly written\
+\\1 can be a reserved symbol, so the intention might have been to escape it (\\\1)\
+Currently, it captures any letter, then a \\, then a 1, then a \\, then a 1 (length 5)
+
+```{r}
+anySlashOneSlashOneRegex <- "(.)\1\1"
+words <- c("a\1\1", "b\1\1", "a\1\1a", "something")
+str_extract(words, regex(anySlashOneSlashOneRegex, ignore_case = TRUE))
+```
+
+###### If rewritten as: (.)\\\\1\\\\1\
+It will capture any 3 of the same characters in sequence (form 111, length 3)
+
+```{r}
+sameThreeSequentiallyRegex <- "(.)\\1\\1"
+words <- c("aaa", "aaaa", "dad", "daaad", "a aaa", "111")
+str_extract(words, regex(sameThreeSequentiallyRegex, ignore_case = TRUE))
+```
+
+
+
+##### • "(.)(.)\\\2\\\1"
+It will capture any 2 characters, then those same characters in reverse sequence (form "1221", length 6) all surrounded by quotes
+
+```{r}
+anyTwoThenReversedQuotedRegex <- "\"(.)(.)\\2\\1\""
+words <- c("aaaa", "aaa", "dad", "daaad", "daad","1221",
+           "\"aaaa\"", "\"aaa\"", "\"dad\"", "\"daaad\"", "\"daad\"", "\"1221\"")
+str_extract(words, regex(anyTwoThenReversedQuotedRegex, ignore_case = TRUE))
+```
+
+
+
+##### • (..)\1
+This may have been incorrectly written\
+\\1 can be a reserved symbol, so the intention might have been to escape it (\\\1)\
+Currently, it captures any 2 characters, then a \\, and then a 1 (length 4)
+
+```{r}
+anyTwoThenSlashOneRegex <- "(..)\1"
+words <- c("ab\1", "ab\1\1", "aa\1\1a", "something")
+str_extract(words, regex(anyTwoThenSlashOneRegex, ignore_case = TRUE))
+```
+
+###### If rewritten as: (..)\\\\1\
+It will capture any 2 characters, then those same characters again in the same sequence (form 1212, length 4)
+
+```{r}
+sameAnyTwoTwiceRegex <- "(..)\\1"
+words <- c("aaaa", "aa", "daad", "dada", "adaaadaa", "1212")
+str_extract(words, regex(sameAnyTwoTwiceRegex, ignore_case = TRUE))
+```
+
+
+
+##### • "(.).\\\1.\\\1"
+It will capture any 2 characters, then another of the first character, then any character, then another of the first character all surrounded by quotes (form "12131", length 7)
+
+```{r}
+anyTwoFirstAnyFirstQuotedRegex <- "\"(.).\\1.\\1\""
+words <- c("azaxa", "aaaaa", "aaaa", "abcde", "hahah", "12131",
+           "\"azaxa\"", "\"aaaaa\"", "\"aaaa\"", "\"abcde\"", "\"hahah\"", "\"12131\"")
+str_extract(words, regex(anyTwoFirstAnyFirstQuotedRegex, ignore_case = TRUE))
+```
+
+##### • "(.)(.)(.).*\\\3\\\2\\\1"
+It will capture 3 or more characters, then the first three characters in reverse sequence all surrounded by quotes (form "123...321", length min 6)
+
+```{r}
+anyNThreeTwoOneQuotedRegex <- "\"(.)(.)(.).*\\3\\2\\1\""
+words <- c("racecar", "aracecar", "aaaaaaaaa", "hahahahah", "civic", "123...321",
+           "\"racecar\"", "\"aracecar\"", "\"aaaaaaaaa\"", "\"hahahahah\"", "\"123...321\"")
+str_extract(words, regex(anyNThreeTwoOneQuotedRegex, ignore_case = TRUE))
+```
+
+******
+
+# Question 4
+#### Construct regular expressions to match words that:
+##### • Start and end with the same character.
+
+\\1 is a look behind to group 1\
+^ is beginning of the string\
+$ is end of the string\
+\\b check for word boundary which can detect whitespace between words or beggining or end of string
+
+```{r}
+sameStartAndEndCharacterWordRegex <- "^([A-Za-z]).*\\1$"
+sameStartAndEndCharacterWordSentenceRegex <- "\\b([A-Za-z])\\S*\\1\\b"
+words <- c("dad", "daddy", "mom", "mommy", "dogged", "I  am a  dad")
+str_extract(words, regex(sameStartAndEndCharacterWordSentenceRegex, ignore_case = TRUE))
+```
+
+##### • Contain a repeated pair of letters (e.g. "church" contains "ch" repeated twice.)
+\\S looks for all non-whitespace characters, great for parsing individual words in a string
+
+```{r}
+repeatedPairWordRegex <- "\\S*([A-Za-z]{2})\\S*\\1\\S*"
+repeatedPairLettersRegex <- "([A-Za-z]{2})\\S*\\1"
+
+words <- c("church", "mychurches", "hahaha", "rolypoly", "chachacha", "A rolypoly, haha!")
+str_extract(words, regex(repeatedPairWordRegex, ignore_case = TRUE))
+str_extract(str_extract(words, regex(repeatedPairLettersRegex, ignore_case = TRUE)), "^.{2}")
+```
