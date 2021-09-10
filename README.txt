@@ -23,5 +23,5 @@ The two exercises below are taken from R for Data Science, 14.3.5.1 in the on
 • "(.)(.)(.).*\\3\\2\\1"
 
 #4 Construct regular expressions to match words that:
-	•	Start and end with the same character.
-	•	Contain a repeated pair of letters (e.g. "church" contains "ch" repeated twice.)
+• Start and end with the same character.
+• Contain a repeated pair of letters (e.g. "church" contains "ch" repeated twice.)
