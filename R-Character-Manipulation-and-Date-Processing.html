@@ -282,7 +282,7 @@ str_extract(words, regex(sameThreeSequentiallyRegex, ignore_case = TRUE))</code>
 </div>
 <div id="section-1" class="section level5">
 <h5>• “(.)(.)\\2\\1”</h5>
-<p>It will capture any 2 characters, then those same characters in reverse sequence (form “1221”, length 6) all surrounded by quotes</p>
+<p>It will capture any 2 characters, then those same characters in reverse sequence all surrounded by quotes (form “1221”, length 6)</p>
 <pre class="r"><code>anyTwoThenReversedQuotedRegex &lt;- &quot;\&quot;(.)(.)\\2\\1\&quot;&quot;
 words &lt;- c(&quot;aaaa&quot;, &quot;aaa&quot;, &quot;dad&quot;, &quot;daaad&quot;, &quot;daad&quot;,&quot;1221&quot;,
            &quot;\&quot;aaaa\&quot;&quot;, &quot;\&quot;aaa\&quot;&quot;, &quot;\&quot;dad\&quot;&quot;, &quot;\&quot;daaad\&quot;&quot;, &quot;\&quot;daad\&quot;&quot;, &quot;\&quot;1221\&quot;&quot;)

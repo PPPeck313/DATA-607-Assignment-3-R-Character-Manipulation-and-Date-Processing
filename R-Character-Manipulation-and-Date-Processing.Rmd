@@ -12,7 +12,6 @@ library(qdapRegex)
 library(purrr)
 ```
 
-
 ******
 
 # Question 1
