@@ -4,9 +4,9 @@ Please deliver links to an R Markdown file (in GitHub and rpubs.com) with soluti
 
 2. Write code that transforms the data below:</p>
 
-[1] "bell pepper"  "bilberry"     "blackberry"   "blood orange"
-[5] "blueberry"    "cantaloupe"   "chili pepper" "cloudberry"
-[9] "elderberry"   "lime"         "lychee"       "mulberry"
+[1] "bell pepper"  "bilberry"     "blackberry"   "blood orange"</p>
+[5] "blueberry"    "cantaloupe"   "chili pepper" "cloudberry"</p>
+[9] "elderberry"   "lime"         "lychee"       "mulberry"</p>
 [13] "olive"        "salal berry"
 
 Into a format like this:</p>
