@@ -1,13 +1,13 @@
-Please deliver links to an R Markdown file (in GitHub and rpubs.com) with solutions to the problems below.  You may work in a small group, but please submit separately with names of all group participants in your submission.</p>
+Please deliver links to an R Markdown file (in GitHub and rpubs.com) with solutions to the problems below.  You may work in a small group, but please submit separately with names of all group participants in your submission.
 
-1. Using the 173 majors listed in fivethirtyeight.com’s College Majors dataset [https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/], provide code that identifies the majors that contain either "DATA" or "STATISTICS"</p>
+1. Using the 173 majors listed in fivethirtyeight.com’s College Majors dataset [https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/], provide code that identifies the majors that contain either "DATA" or "STATISTICS"
 
 2. Write code that transforms the data below:</p>
 
-[1] "bell pepper"  "bilberry"     "blackberry"   "blood orange"</p>
-[5] "blueberry"    "cantaloupe"   "chili pepper" "cloudberry"</p>
-[9] "elderberry"   "lime"         "lychee"       "mulberry"</p>
-[13] "olive"        "salal berry"</p>
+[1] "bell pepper"  "bilberry"     "blackberry"   "blood orange"
+[5] "blueberry"    "cantaloupe"   "chili pepper" "cloudberry"
+[9] "elderberry"   "lime"         "lychee"       "mulberry"
+[13] "olive"        "salal berry"
 
 Into a format like this:</p>
 c("bell pepper", "bilberry", "blackberry", "blood orange", "blueberry", "cantaloupe", "chili pepper", "cloudberry", "elderberry", "lime", "lychee", "mulberry", "olive", "salal berry")</p>
