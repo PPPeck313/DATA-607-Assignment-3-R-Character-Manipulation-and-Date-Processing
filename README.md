@@ -1,4 +1,5 @@
-#Assignment 3 - R Character Manipulation and Date Processing
+# Assignment 3 - R Character Manipulation and Date Processing
+
 Please deliver links to an R Markdown file (in GitHub and rpubs.com) with solutions to the problems below.  You may work in a small group, but please submit separately with names of all group participants in your submission.
 
 1. Using the 173 majors listed in fivethirtyeight.com’s College Majors dataset [https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/], provide code that identifies the majors that contain either "DATA" or "STATISTICS"
